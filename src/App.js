@@ -1,6 +1,10 @@
 import './App.css';
 import gptLogo from './assets/chatgpt.svg';
-
+import addBtn from './assets/add-30.png';
+import msgIcon from './assets/message.svg';
+import home from './assets/home.svg';
+import saved from './assets/bookmark.svg';
+import rocket from './assets/rocket.svg';
 function App() {
   return (
     <div className="App">
@@ -11,21 +15,34 @@ function App() {
             <span className="brand">ChatGPT</span>
           </div>
           <button className="midBtn">
-            <img src="" alt="" className="addBtn" />
+            <img src={addBtn} alt="new chat" className="addBtn" />
             New Chat
           </button>
           <div className="upperSideBottom">
             <button className="query">
-              <img src="" alt="" />
+              <img src={msgIcon} alt="Query" />
               What is Programming?
             </button>
             <button className="query">
-              <img src="" alt="" />
-              What is Programming?
+              <img src={msgIcon} alt="Query" />
+              How to use an API?
             </button>
           </div>
         </div>
-        <div className="lowerSide"></div>
+        <div className="lowerSide">
+          <div className="listItens">
+            <img src={home} alt="Home" className="listitemsImg" />
+            Home
+          </div>
+          <div className="listItens">
+            <img src={saved} alt="Saved" className="listitemsImg" />
+            Saved
+          </div>
+          <div className="listItens">
+            <img src={rocket} alt="Upgrade" className="listitemsImg" />
+            Upgrade to PRO
+          </div>
+        </div>
       </div>
       <div className="main"></div>
     </div>
