@@ -5,6 +5,9 @@ import msgIcon from './assets/message.svg';
 import home from './assets/home.svg';
 import saved from './assets/bookmark.svg';
 import rocket from './assets/rocket.svg';
+import sendBtn from './assets/send.svg';
+import userIcon from './assets/user-icon.png';
+import gptImageLogo from './assets/chatgptLogo.svg';
 function App() {
   return (
     <div className="App">
@@ -44,7 +47,47 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="main"></div>
+      <div className="main">
+        <div className="chats">
+          <div className="chat">
+            <img className="chatImg" src={userIcon} alt="" />{' '}
+            <p className="txt">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
+              tenetur porro consectetur vitae repudiandae quidem tempora, totam
+              nostrum consequuntur non?
+            </p>
+          </div>
+          <div className="chat bot">
+            <img className="chatImg" src={gptImageLogo} alt="" />{' '}
+            <p className="txt">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam
+              dolore deleniti beatae aperiam eaque est aspernatur, reiciendis in
+              blanditiis dolorum repellendus esse laudantium neque distinctio
+              pariatur libero rem aliquid doloremque tempore excepturi eos enim
+              commodi. Expedita maxime quo dolores voluptatum totam soluta sit
+              similique quas molestias accusamus perferendis libero enim non
+              ullam incidunt, recusandae minima voluptate? Enim facilis quasi,
+              minima porro quo, sapiente magnam quidem molestias quis placeat
+              nulla pariatur dolorem ea quibusdam voluptas odit iste fuga, ipsa
+              aspernatur maiores? Dicta obcaecati ullam officia, sapiente est
+              placeat quasi eligendi facere esse, vero blanditiis deserunt ipsum
+              eius atque, aperiam laboriosam. Ab?
+            </p>
+          </div>
+        </div>
+        <div className="chatFooter">
+          <div className="inp">
+            <input type="text" placeholder="Send a message..." />{' '}
+            <button className="send">
+              <img src={sendBtn} alt="Send" />
+            </button>
+          </div>
+          <p>
+            ChatGPT may produce inaccurate information about people, places or
+            facts. ChatGPT Clone September 23 Version.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
