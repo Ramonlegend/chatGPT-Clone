@@ -9,15 +9,44 @@ import sendBtn from './assets/send.svg';
 import userIcon from './assets/user-icon.png';
 import gptImageLogo from './assets/chatgptLogo.svg';
 import { sendMsgToOpenAI } from './openai';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function App() {
+  const msgEnd = useRef(null);
   const [input, setInput] = useState('');
+  const [messages, setMessages] = useState([
+    {
+      text: "Hi, I am ChatGPT, a state-of-the-art language model developed by OpenAI. I'm designed to understand and generate human-like text based on the inpute I receive",
+      isBot: true,
+    },
+  ]);
+  useEffect(() => {
+    msgEnd.current.scrollIntoView();
+  }, [messages]);
   const handleSend = async () => {
-    const res = await sendMsgToOpenAI(input);
-    console.log(res);
+    const text = input;
+    setInput('');
+    setMessages([...messages, { text, isBot: false }]);
+    const res = await sendMsgToOpenAI(text);
+    setMessages([
+      ...messages,
+      { text, isBot: false },
+      { text: res, isBot: true },
+    ]);
   };
-
+  const handleEnter = async (e) => {
+    if (e.key === 'Enter') await handleSend();
+  };
+  const handleQuery = async (e) => {
+    const text = e.target.value;
+    setMessages([...messages, { text, isBot: false }]);
+    const res = await sendMsgToOpenAI(text);
+    setMessages([
+      ...messages,
+      { text, isBot: false },
+      { text: res, isBot: true },
+    ]);
+  };
   return (
     <div className="App">
       <div className="sideBar">
@@ -26,16 +55,29 @@ function App() {
             <img src={gptLogo} alt="Logo" className="logo" />
             <span className="brand">ChatGPT</span>
           </div>
-          <button className="midBtn">
+          <button
+            className="midBtn"
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
             <img src={addBtn} alt="new chat" className="addBtn" />
             New Chat
           </button>
           <div className="upperSideBottom">
-            <button className="query">
+            <button
+              className="query"
+              onClick={handleQuery}
+              value={'What is Programming?'}
+            >
               <img src={msgIcon} alt="Query" />
               What is Programming?
             </button>
-            <button className="query">
+            <button
+              className="query"
+              onClick={handleQuery}
+              value={'How to use an API?'}
+            >
               <img src={msgIcon} alt="Query" />
               How to use an API?
             </button>
@@ -58,31 +100,19 @@ function App() {
       </div>
       <div className="main">
         <div className="chats">
-          <div className="chat">
-            <img className="chatImg" src={userIcon} alt="" />{' '}
-            <p className="txt">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-              tenetur porro consectetur vitae repudiandae quidem tempora, totam
-              nostrum consequuntur non?
-            </p>
-          </div>
-          <div className="chat bot">
-            <img className="chatImg" src={gptImageLogo} alt="" />{' '}
-            <p className="txt">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam
-              dolore deleniti beatae aperiam eaque est aspernatur, reiciendis in
-              blanditiis dolorum repellendus esse laudantium neque distinctio
-              pariatur libero rem aliquid doloremque tempore excepturi eos enim
-              commodi. Expedita maxime quo dolores voluptatum totam soluta sit
-              similique quas molestias accusamus perferendis libero enim non
-              ullam incidunt, recusandae minima voluptate? Enim facilis quasi,
-              minima porro quo, sapiente magnam quidem molestias quis placeat
-              nulla pariatur dolorem ea quibusdam voluptas odit iste fuga, ipsa
-              aspernatur maiores? Dicta obcaecati ullam officia, sapiente est
-              placeat quasi eligendi facere esse, vero blanditiis deserunt ipsum
-              eius atque, aperiam laboriosam. Ab?
-            </p>
-          </div>
+          {messages.map((message, i) => {
+            return (
+              <div key={i} className={message.isBot ? 'chat bot' : 'chat'}>
+                <img
+                  className="chatImg"
+                  src={message.isBot ? gptImageLogo : userIcon}
+                  alt=""
+                />{' '}
+                <p className="txt">{message.text}</p>
+              </div>
+            );
+          })}
+          <div ref={msgEnd} />
         </div>
         <div className="chatFooter">
           <div className="inp">
@@ -90,6 +120,7 @@ function App() {
               type="text"
               placeholder="Send a message..."
               value={input}
+              onKeyDown={handleEnter}
               onChange={(e) => {
                 setInput(e.target.value);
               }}
